@@ -26,7 +26,7 @@ Two product decisions follow from that.
 
 | Gesture | What it does |
 |---|---|
-| Hold **Ctrl + Win** | Records while held; release to transcribe and paste |
+| Hold **your dictation shortcut** | Records while held; release to transcribe and paste |
 | Tap **Space** while holding | Hands-free: keeps recording after you let go; press the hotkey again to finish |
 | **Esc** while recording | Cancel |
 | **Alt + Shift + Z** | Paste your last dictation again |
@@ -52,7 +52,7 @@ Python and every dependency are bundled, so there's nothing else to install.
 
 Windows SmartScreen may warn about an unknown publisher the first time, because the app isn't code-signed. Choose **More info → Run anyway**.
 
-If another app already uses Ctrl + Win, pick a different shortcut in Settings.
+Pick the dictation shortcut in Settings; if another app already uses the one you chose, switch to one of the others.
 
 ## Privacy and where things are stored
 
