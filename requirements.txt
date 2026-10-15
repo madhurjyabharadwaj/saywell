@@ -1,0 +1,5 @@
+PySide6-Essentials>=6.8
+sounddevice>=0.5
+numpy>=2.0
+comtypes>=1.4
+anthropic>=1.14
