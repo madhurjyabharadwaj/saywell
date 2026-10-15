@@ -1,8 +1,8 @@
 """Insert text into the focused app: clipboard swap + synthetic Ctrl+V.
 
-Same strategy as Wispr's Windows helper (OpenClipboard/SetClipboardData,
-SendInput, RestoreOriginalClipboard, optional Shift+Insert): snapshot the
-clipboard, put our text on it, paste, then put the user's clipboard back.
+Snapshot the clipboard, put our text on it (OpenClipboard/SetClipboardData),
+paste with SendInput (Ctrl+V, or optionally Shift+Insert), then put the user's
+clipboard back.
 """
 import ctypes
 import time

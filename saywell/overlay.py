@@ -1,4 +1,4 @@
-"""The always-on floating bar at the bottom of the screen (Wispr's "status" window).
+"""The always-on floating bar at the bottom of the screen.
 
 Idle: a slim pill; hovering it shows the hotkey hint and clicking opens Saywell.
 Listening: live mic level bars. Processing: pulsing dots. Short messages flash in it.

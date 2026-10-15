@@ -1,7 +1,7 @@
 """Global push-to-talk hotkey via a low-level keyboard hook (WH_KEYBOARD_LL).
 
-Mirrors the Wispr Flow helper's approach: the hook only tracks key state and
-emits events; all real work happens on other threads.
+The hook only tracks key state and emits events; all real work happens on
+other threads, so the hook never slows down typing.
 
 Gestures
   hold chord           -> "start"; release any chord key -> "stop"

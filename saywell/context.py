@@ -1,8 +1,8 @@
 """Capture what the user is dictating into: foreground app + focused text field.
 
-Wispr's helper sends the same kind of context (app name, textbox before/after/
-selected text, capped at 500 chars) with each request so the formatter can match
-casing, spacing and style. We read it through UI Automation.
+This context (app name, textbox before/after/selected text, capped at 500 chars)
+goes with each request so the formatter can match casing, spacing and style.
+We read it through UI Automation.
 """
 import ctypes
 import os

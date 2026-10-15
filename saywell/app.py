@@ -1,6 +1,6 @@
 """Saywell engine: hold a hotkey, speak, release - polished text appears where your cursor is.
 
-Pipeline (same shape as Wispr Flow's):
+Pipeline:
   hotkey hook -> mic capture + context capture -> ASR -> LLM formatting -> paste
 
 The engine has no UI of its own. It drives an overlay through set_mode/set_locked/
@@ -25,7 +25,7 @@ from .hotkey import HotkeyListener
 
 
 def smart_space(text: str, ctx: context.AppContext) -> str:
-    """Insert a separating space when continuing after a word, like Wispr's paste logic."""
+    """Insert a separating space when continuing after a word."""
     b = ctx.before_text
     if text and b and not b[-1].isspace() and b[-1] not in "([{\"'/“‘" and text[0].isalnum():
         return " " + text

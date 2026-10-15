@@ -1,4 +1,4 @@
-"""Local SQLite history of dictations (Wispr keeps a similar `history` table).
+"""Local SQLite history of dictations.
 
 Failed dictations (no network, bad key, API outage) are stored with status
 "failed" and the path of the saved recording so they can be retried later.

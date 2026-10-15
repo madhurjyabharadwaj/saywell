@@ -1,7 +1,7 @@
 """Turn a raw transcript into the text the user meant to type, using an LLM.
 
-Wispr sends the raw ASR text plus context (app, textbox contents, dictionary,
-user name, style settings) to a hosted LLM step; this is our equivalent.
+The raw ASR text goes to an LLM together with context (app, textbox contents,
+dictionary, user name, style settings) so the output fits where it is going.
 Two backends: Claude (Anthropic SDK) or any OpenAI-compatible chat endpoint (e.g. Groq).
 """
 import json
