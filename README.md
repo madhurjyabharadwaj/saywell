@@ -27,9 +27,9 @@ Two product decisions follow from that.
 | Gesture | What it does |
 |---|---|
 | Hold **your dictation shortcut** | Records while held; release to transcribe and paste |
-| Tap **Space** while holding | Hands-free: keeps recording after you let go; press the hotkey again to finish |
+| Tap **Space** while holding | Hands-free: keeps recording after you let go; press the shortcut again to finish |
 | **Esc** while recording | Cancel |
-| **Alt + Shift + Z** | Paste your last dictation again |
+| Your **paste-again shortcut** | Pastes your last dictation again, wherever the cursor is |
 | Click the bar | Open Saywell |
 
 Three details carry more weight than they look:
@@ -52,7 +52,7 @@ Python and every dependency are bundled, so there's nothing else to install.
 
 Windows SmartScreen may warn about an unknown publisher the first time, because the app isn't code-signed. Choose **More info → Run anyway**.
 
-Pick the dictation shortcut in Settings; if another app already uses the one you chose, switch to one of the others.
+Both shortcuts are chosen in Settings, which offers a few presets for each; if another app already uses the one you picked, switch to one of the others. The paste-again shortcut can also be turned off.
 
 ## Privacy and where things are stored
 
