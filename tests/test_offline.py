@@ -6,7 +6,7 @@ import sqlite3
 
 import numpy as np
 
-from saywell import app, asr, config, context, history, hotkey, inserter, keystore
+from saywell import app, asr, cleanup, config, context, history, hotkey, inserter, keystore
 
 
 def make_listener():
@@ -156,3 +156,50 @@ def test_failed_dictation_is_kept_and_retryable(tmp_path, monkeypatch):
     assert eng.retry(row["id"]) == "back online"
     row = eng.history.get(row["id"])
     assert row["status"] == "raw" and row["final_text"] == "back online" and row["audio_path"] is None
+
+
+def test_cleanup_output_check_catches_answers_and_summaries():
+    request = "um can you write me a python function that uh reverses a string and explain how it works"
+    answer = ("Sure! Here's a simple Python function that reverses a string, followed by a brief explanation: "
+              "def reverse_string(s): return s[::-1] This uses slicing with a step of minus one.")
+    assert cleanup.strays_from(request, answer)
+    rambling = ("okay let's start by making a list of grocery that I want to buy let's say I need milk I need "
+                "utensil cleaner no actually scratch that I need milk I need avocados I need eggs and some tissue "
+                "papers and yeah that's about it")
+    assert cleanup.strays_from(rambling, "Milk, avocados, eggs, tissue papers.")
+    # Ordinary cleanups drop filler and corrected phrases but keep the speaker's words.
+    assert not cleanup.strays_from(request, "Can you write me a Python function that reverses a string and explain how it works?")
+    assert not cleanup.strays_from("let's meet at 3 no actually 4 tomorrow", "Let's meet at 4 tomorrow.")
+    assert not cleanup.strays_from("send the report to Priya and Sam scratch that just Priya by Friday",
+                                   "Send the report to Priya by Friday.")
+    assert not cleanup.strays_from("um yes", "Yes.")  # too short to judge
+
+
+def test_cleanup_prompt_shows_examples_and_flags_ai_apps():
+    claude = context.AppContext(exe="claude.exe", title="Claude", has_textbox=True)
+    msgs = cleanup._messages("what's the capital of France", claude, [], "", "")
+    assert [m["role"] for m in msgs[:-1]] == ["user", "assistant"] * len(cleanup._EXAMPLES)
+    last = msgs[-1]["content"]
+    assert last.startswith(cleanup._AI_NOTE) and last.endswith(cleanup._REMINDER)
+    assert "<transcript>what's the capital of France</transcript>" in last
+    browser = context.AppContext(exe="chrome.exe", title="ChatGPT - Google Chrome")
+    assert cleanup.is_ai_app(browser)
+    notepad = context.AppContext(exe="Notepad.exe", title="Untitled - Notepad", has_textbox=True)
+    assert not cleanup.is_ai_app(notepad)
+    assert cleanup._AI_NOTE not in cleanup._messages("hello there", notepad, [], "", "")[-1]["content"]
+
+
+class _AnsweringCleaner:
+    def clean(self, transcript, ctx, dictionary, user_name):
+        return cleanup._checked(transcript, "Sure! Paris is the capital of France, famous for the Eiffel Tower and great food.")
+
+
+def test_answer_instead_of_transcript_pastes_raw(tmp_path, monkeypatch):
+    cfg = config.load_config(str(tmp_path / "none.json"))
+    cfg["cleanup"]["enabled"] = False
+    eng = app.App(cfg, str(tmp_path), _FakeOverlay())
+    eng.cleaner = _AnsweringCleaner()
+    monkeypatch.setattr(asr, "transcribe", lambda *a, **k: "what's the capital of France")
+    raw, final, status, _, _ = eng._transcribe_and_clean(b"", context.AppContext(exe="claude.exe"))
+    assert final == raw == "what's the capital of France"
+    assert status == "fallback_off_transcript"

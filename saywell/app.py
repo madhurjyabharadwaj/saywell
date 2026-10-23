@@ -19,7 +19,7 @@ import numpy as np
 
 from . import asr, context, inserter, sounds
 from .audio import SAMPLE_RATE, Recorder, to_wav
-from .cleanup import make_cleaner
+from .cleanup import OffTranscript, make_cleaner
 from .history import History
 from .hotkey import HotkeyListener
 
@@ -204,6 +204,9 @@ class App:
                     final, status = cleaned, "formatted"
                 else:
                     status = "fallback_refusal"
+            except OffTranscript as e:
+                print(f"[cleanup] answered instead of transcribing; pasting raw transcript: {e}")
+                status = "fallback_off_transcript"
             except Exception as e:
                 print(f"[cleanup] falling back to raw transcript: {e}")
                 status = "fallback_error"

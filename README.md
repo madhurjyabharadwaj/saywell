@@ -73,7 +73,7 @@ Your history and settings stay on your PC, in `%APPDATA%\Saywell`. **Settings â†
 | Context | `context.py` | UI Automation reads the focused app and nearby text so formatting matches the destination. Password fields are skipped |
 | Audio | `audio.py` | 16 kHz mono via `sounddevice` |
 | Speech-to-text | `asr.py` | Any OpenAI-compatible `/audio/transcriptions` endpoint (Groq `whisper-large-v3-turbo` by default) |
-| Cleanup | `cleanup.py` | Removes filler words and applies spoken corrections. Any OpenAI-compatible chat endpoint (Groq by default) or Anthropic |
+| Cleanup | `cleanup.py` | Removes filler words and applies spoken corrections. Dictated requests ("write me a functionâ€¦") are written down, never answered; if the output strays from what you said, the raw transcript is pasted instead. Any OpenAI-compatible chat endpoint (Groq by default) or Anthropic |
 | Paste | `inserter.py` | Clipboard swap + `Ctrl+V`, then restores your clipboard |
 | UI | `overlay.py`, `ui.py` | Qt (PySide6): floating bar, History and Settings window, tray icon |
 
